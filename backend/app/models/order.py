@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from datetime import datetime
-from app.database import Base
+from backend.app.db.database import Base
 
 
 class Order(Base):
