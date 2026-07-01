@@ -1,7 +1,8 @@
 # Python
 backend/venv/
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
 .env
 
 # Node
@@ -10,3 +11,10 @@ frontend/dist/
 
 # VS Code
 .vscode/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
