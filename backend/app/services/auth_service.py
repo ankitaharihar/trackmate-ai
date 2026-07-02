@@ -5,6 +5,7 @@ from app.schemas.user import UserRegister, UserLogin
 from app.core.security import (
     hash_password,
     verify_password,
+    create_access_token,
 )
 
 
@@ -66,4 +67,13 @@ def authenticate_user(
     ):
         return None
 
-    return existing_user
+    access_token = create_access_token(
+        {
+            "sub": existing_user.email,
+        }
+    )
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+    }

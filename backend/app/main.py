@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api import auth
+from app.api import auth, users
 
 app = FastAPI(
     title="TrackMate AI",
@@ -9,6 +9,7 @@ app = FastAPI(
 )
 
 app.include_router(auth.router)
+app.include_router(users.router)
 
 
 @app.get("/", tags=["Root"])
