@@ -1,3 +1,4 @@
-from sqlalchemy.orm import declarative_base
+from app.db.database import Base
 
-Base = declarative_base()
+from app.models.user import User
+from app.models.order import Order

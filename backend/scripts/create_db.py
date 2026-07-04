@@ -1,6 +1,6 @@
-from backend.app.db.database import engine, Base
-from app.models.user import User
-from app.models.order import Order
+from app.db.database import Base
+from app.db.session import engine
+from app.db.base import *
 
 print("Creating tables...")
 Base.metadata.create_all(bind=engine)
