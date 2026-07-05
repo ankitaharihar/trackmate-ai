@@ -12,7 +12,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 
-from app.db.base import Base
+from app.db.database import Base
 
 
 class Order(Base):
