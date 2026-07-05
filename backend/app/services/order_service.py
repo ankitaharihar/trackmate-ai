@@ -84,3 +84,24 @@ def update_order_status(
     db.refresh(order)
 
     return order
+
+def delete_order(
+    db: Session,
+    tracking_id: str,
+    current_user: User,
+):
+    order = get_order_by_tracking_id(
+        db,
+        tracking_id,
+    )
+
+    if order is None:
+        return None
+
+    if order.user_id != current_user.id:
+        return "FORBIDDEN"
+
+    db.delete(order)
+    db.commit()
+
+    return True

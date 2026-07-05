@@ -21,6 +21,7 @@ from app.services.order_service import (
     get_user_orders,
     get_order_by_tracking_id,
     update_order_status,
+    delete_order,
 )
 
 router = APIRouter(
@@ -119,3 +120,33 @@ def update_status(
         )
 
     return order
+
+@router.delete(
+    "/{tracking_id}",
+)
+def delete_my_order(
+    tracking_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    result = delete_order(
+        db=db,
+        tracking_id=tracking_id,
+        current_user=current_user,
+    )
+
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found",
+        )
+
+    if result == "FORBIDDEN":
+        raise HTTPException(
+            status_code=403,
+            detail="Access denied",
+        )
+
+    return {
+        "message": "Order deleted successfully"
+    }
