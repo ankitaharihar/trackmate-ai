@@ -14,8 +14,8 @@ from app.constants.order_status import OrderStatus
 from app.schemas.order import (
     OrderCreate,
     OrderResponse,
+    OrderStatusUpdate,
 )
-
 from app.services.order_service import (
     create_order,
     get_user_orders,
@@ -95,14 +95,14 @@ def track_order(
 )
 def update_status(
     tracking_id: str,
-    status: OrderStatus,
+    order_update: OrderStatusUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     order = update_order_status(
         db=db,
         tracking_id=tracking_id,
-        status=status,
+        status=order_update.status,
         current_user=current_user,
     )
 

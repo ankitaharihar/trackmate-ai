@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from app.constants.order_status import OrderStatus
+
 
 class OrderCreate(BaseModel):
     sender_name: str
@@ -8,6 +10,10 @@ class OrderCreate(BaseModel):
     destination: str
     parcel_name: str
     weight: float
+
+
+class OrderStatusUpdate(BaseModel):
+    status: OrderStatus
 
 
 class OrderResponse(BaseModel):
