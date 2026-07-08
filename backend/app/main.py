@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api import auth, users, orders
+from app.api import auth, users, orders, tracking
 
 app = FastAPI(
     title="TrackMate AI",
@@ -11,6 +11,7 @@ app = FastAPI(
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(orders.router)
+app.include_router(tracking.router)
 
 
 

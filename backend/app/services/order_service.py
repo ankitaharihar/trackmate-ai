@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models.order import Order
 from app.models.user import User
+from app.models.tracking_event import TrackingEvent
 from app.schemas.order import OrderCreate
 from app.utils.tracking import generate_tracking_id
 
@@ -80,7 +81,17 @@ def update_order_status(
 
     order.status = status
 
+    tracking_event = TrackingEvent(
+        order_id=order.id,
+        status=status.value,
+        location="System",
+        description=f"Order status updated to {status.value}",
+    )
+
+    db.add(tracking_event)
+
     db.commit()
+
     db.refresh(order)
 
     return order

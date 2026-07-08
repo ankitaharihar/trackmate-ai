@@ -1,53 +1,67 @@
-from datetime import datetime
-
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    DateTime,
-    ForeignKey,
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
 )
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Session
 
-from app.db.base import Base
+from app.db.session import get_db
+from app.schemas.tracking import (
+    TrackingEventCreate,
+    TrackingEventResponse,
+)
+from app.services.tracking_service import (
+    create_tracking_event,
+    get_tracking_history,
+)
+
+router = APIRouter(
+    prefix="/tracking",
+    tags=["Tracking"],
+)
 
 
-class TrackingEvent(Base):
-    __tablename__ = "tracking_events"
-
-    id = Column(
-        Integer,
-        primary_key=True,
-        index=True,
+@router.post(
+    "",
+    response_model=TrackingEventResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def add_tracking_event(
+    event: TrackingEventCreate,
+    db: Session = Depends(get_db),
+):
+    tracking_event = create_tracking_event(
+        db=db,
+        event=event,
     )
 
-    order_id = Column(
-        Integer,
-        ForeignKey("orders.id"),
-        nullable=False,
+    if tracking_event is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found",
+        )
+
+    return tracking_event
+
+
+@router.get(
+    "/{tracking_id}",
+    response_model=list[TrackingEventResponse],
+)
+def get_tracking(
+    tracking_id: str,
+    db: Session = Depends(get_db),
+):
+    history = get_tracking_history(
+        db=db,
+        tracking_id=tracking_id,
     )
 
-    status = Column(
-        String,
-        nullable=False,
-    )
+    if history is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found",
+        )
 
-    location = Column(
-        String,
-        nullable=False,
-    )
-
-    description = Column(
-        String,
-        nullable=False,
-    )
-
-    created_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-    )
-
-    order = relationship(
-        "Order",
-        backref="tracking_events",
-    )
+    return history
