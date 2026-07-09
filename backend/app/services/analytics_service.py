@@ -52,3 +52,20 @@ def get_dashboard_stats(db: Session):
         "delivered": delivered,
         "cancelled": cancelled,
     }
+def get_recent_orders(db: Session, limit: int = 5):
+    orders = (
+        db.query(Order)
+        .order_by(Order.created_at.desc())
+        .limit(limit)
+        .all()
+    )
+
+    return [
+        {
+            "tracking_id": order.tracking_id,
+            "receiver_name": order.receiver_name,
+            "destination": order.destination,
+            "status": order.status.value,
+        }
+        for order in orders
+    ]
