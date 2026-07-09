@@ -7,6 +7,7 @@ import Orders from "../pages/Orders";
 import Tracking from "../pages/Tracking";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Landing from "../pages/Landing";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ export default function AppRoutes() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/tracking" element={<Tracking />} />
+          <Route path="/landing" element={<Landing />} />
         </Route>
       </Routes>
     </BrowserRouter>
