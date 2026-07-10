@@ -1,44 +1,56 @@
+import Scene from "../../three/Scene";
 import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#030712]">
+    <section className="relative min-h-screen bg-[#020617] overflow-hidden">
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#0ea5e955,transparent_70%)]" />
+      {/* Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#0ea5e922,transparent_70%)]" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="z-10 text-center"
-      >
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center justify-between px-8">
 
-        <p className="mb-4 text-cyan-400 tracking-[0.3em] uppercase">
-          AI Powered Logistics Intelligence
-        </p>
+        {/* Left Side */}
+        <motion.div
+          initial={{ x: -80, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="max-w-xl"
+        >
+          <p className="mb-4 text-cyan-400 uppercase tracking-[0.3em]">
+            AI Powered Logistics
+          </p>
 
-        <h1 className="text-7xl font-black text-white">
-          Mission Control
-        </h1>
+          <h1 className="text-7xl font-black text-white leading-tight">
+            Mission
+            <br />
+            Control
+          </h1>
 
-        <p className="mx-auto mt-8 max-w-2xl text-lg text-gray-400 leading-8">
-          Track shipments across the globe using artificial intelligence,
-          predictive analytics and immersive real-time visualization.
-        </p>
+          <p className="mt-8 text-lg leading-8 text-gray-400">
+            Track every shipment with AI-powered analytics,
+            real-time monitoring and immersive visualization.
+          </p>
 
-        <div className="mt-12 flex justify-center gap-6">
+          <div className="mt-10 flex gap-5">
 
-          <button className="rounded-full bg-cyan-500 px-8 py-4 font-semibold text-black hover:scale-105 transition">
-            Launch Dashboard
-          </button>
+            <button className="rounded-full bg-cyan-500 px-8 py-4 font-semibold text-black hover:scale-105 transition">
+              Launch Dashboard
+            </button>
 
-          <button className="rounded-full border border-cyan-500 px-8 py-4 text-cyan-400 hover:bg-cyan-500/10 transition">
-            Explore Technology
-          </button>
+            <button className="rounded-full border border-cyan-500 px-8 py-4 text-cyan-400 hover:bg-cyan-500/10 transition">
+              Live Demo
+            </button>
 
-        </div>
+          </div>
+        </motion.div>
 
-      </motion.div>
+        {/* Right Side */}
+        <div className="h-[650px] w-[650px]">
+    <Scene />
+</div>
+
+      </div>
 
     </section>
   );
