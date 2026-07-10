@@ -3,60 +3,74 @@ import { useRef } from "react";
 import * as THREE from "three";
 
 export default function Earth() {
-  const earthRef = useRef<THREE.Mesh>(null);
-  const cloudsRef = useRef<THREE.Mesh>(null);
+  const earthRef = useRef<THREE.Mesh>(null!);
+  const cloudRef = useRef<THREE.Mesh>(null!);
 
+  // Load textures
   const dayMap = useLoader(
-    THREE.TextureLoader,
-    "/textures/earth_day.jpg"
-  );
+  THREE.TextureLoader,
+  "/textures/earth_day.jpg"
+);
 
-  const normalMap = useLoader(
-    THREE.TextureLoader,
-    "/textures/earth_normal.jpg"
-  );
+const normalMap = useLoader(
+  THREE.TextureLoader,
+  "/textures/earth_normal.jpg"
+);
 
-  const specularMap = useLoader(
-    THREE.TextureLoader,
-    "/textures/earth_specular.jpg"
-  );
+const cloudMap = useLoader(
+  THREE.TextureLoader,
+  "/textures/earth_clouds.jpg"
+);
+  // Better texture quality
 
-  const cloudMap = useLoader(
-    THREE.TextureLoader,
-    "/textures/earth_clouds.png"
-  );
 
   useFrame(() => {
     if (earthRef.current) {
-      earthRef.current.rotation.y += 0.0015;
+      earthRef.current.rotation.y += 0.0012;
     }
 
-    if (cloudsRef.current) {
-      cloudsRef.current.rotation.y += 0.0018;
+    if (cloudRef.current) {
+      cloudRef.current.rotation.y += 0.0015;
     }
   });
 
   return (
     <group>
+      {/* Earth */}
       <mesh ref={earthRef}>
-        <sphereGeometry args={[1.3, 128, 128]} />
-        <meshPhongMaterial
+        <sphereGeometry args={[1.05, 128, 128]} />
+
+        <meshStandardMaterial
           map={dayMap}
           normalMap={normalMap}
-          specularMap={specularMap}
-          shininess={12}
+          metalness={0.05}
+          roughness={0.85}
         />
       </mesh>
 
-      <mesh ref={cloudsRef}>
-        <sphereGeometry args={[1.31, 128, 128]} />
-        <meshPhongMaterial
+      {/* Clouds */}
+      <mesh ref={cloudRef}>
+        <sphereGeometry args={[1.06, 128, 128]} />
+
+        <meshStandardMaterial
           map={cloudMap}
           transparent
-          opacity={0.4}
+          opacity={0.35}
           depthWrite={false}
         />
       </mesh>
+
+      {/* Atmosphere */}
+      <mesh scale={1.08}>
+  <sphereGeometry args={[1.05, 64, 64]} />
+
+  <meshBasicMaterial
+    color="#4fd1ff"
+    transparent
+    opacity={0.18}
+    side={THREE.BackSide}
+  />
+</mesh>
     </group>
   );
 }
