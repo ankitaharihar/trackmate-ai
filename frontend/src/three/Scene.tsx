@@ -2,8 +2,11 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 import Earth from "./Earth";
-import Satellite from "./Satellite";
+import RouteArc from "./RouteArc";
+import Parcel from "./Parcel";
+import RouteMarkers from "./RouteMarkers";
 import StarField from "./Stars";
+import CityMarkers from "./CityMarkers";
 
 export default function Scene() {
   return (
@@ -33,10 +36,14 @@ export default function Scene() {
       {/* Earth */}
       <group position={[0.5, 0, 0]}>
         <Earth />
+        <RouteArc />
+        <Parcel />
+        <RouteMarkers />
+        <CityMarkers />
       </group>
 
-      {/* Satellite */}
-      <Satellite />
+      
+     
 
       {/* Controls */}
       <OrbitControls

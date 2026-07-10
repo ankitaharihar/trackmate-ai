@@ -1,5 +1,6 @@
 import Scene from "../../three/Scene";
 import { motion } from "framer-motion";
+import AICard from "./AICard";
 
 export default function Hero() {
   return (
@@ -48,6 +49,7 @@ export default function Hero() {
         {/* Right Side */}
         <div className="h-[650px] w-[650px]">
     <Scene />
+     <AICard />
 </div>
 
       </div>
