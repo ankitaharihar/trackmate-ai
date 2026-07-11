@@ -3,6 +3,7 @@ import { useRef } from "react";
 import * as THREE from "three";
 
 export default function Earth() {
+  const groupRef = useRef<THREE.Group>(null!);
   const earthRef = useRef<THREE.Mesh>(null!);
   const cloudRef = useRef<THREE.Mesh>(null!);
 
@@ -24,28 +25,34 @@ const cloudMap = useLoader(
   // Better texture quality
 
 
-  useFrame(() => {
+  useFrame((_, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.05;
+    }
+
     if (earthRef.current) {
-      earthRef.current.rotation.y += 0.0012;
+      earthRef.current.rotation.y += delta * 0.018;
     }
 
     if (cloudRef.current) {
-      cloudRef.current.rotation.y += 0.0015;
+      cloudRef.current.rotation.y += delta * 0.024;
     }
   });
 
   return (
-    <group>
+    <group ref={groupRef}>
       {/* Earth */}
       <mesh ref={earthRef}>
         <sphereGeometry args={[1.05, 128, 128]} />
 
-       <meshStandardMaterial
-  map={dayMap}
-  normalMap={normalMap}
-  metalness={0.03}
-  roughness={0.65}
-/>
+        <meshStandardMaterial
+          map={dayMap}
+          normalMap={normalMap}
+          metalness={0.02}
+          roughness={0.56}
+          emissive="#0f6f82"
+          emissiveIntensity={0.08}
+        />
       </mesh>
 
       {/* Clouds */}
@@ -62,15 +69,15 @@ const cloudMap = useLoader(
 
       {/* Atmosphere */}
       <mesh scale={1.08}>
-  <sphereGeometry args={[1.05, 64, 64]} />
+        <sphereGeometry args={[1.05, 64, 64]} />
 
-  <meshBasicMaterial
-    color="#4fd1ff"
-    transparent
-    opacity={0.24}
-    side={THREE.BackSide}
-  />
-</mesh>
+        <meshBasicMaterial
+          color="#66e9ff"
+          transparent
+          opacity={0.3}
+          side={THREE.BackSide}
+        />
+      </mesh>
     </group>
   );
 }

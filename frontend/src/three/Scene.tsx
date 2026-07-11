@@ -49,20 +49,24 @@ export default function Scene({ tilt }: SceneProps) {
     >
       <color attach="background" args={["#020617"]} />
 
-      <ambientLight intensity={0.95} />
+      <ambientLight intensity={1.2} />
 
       <hemisphereLight
-        intensity={0.45}
+        intensity={0.7}
         groundColor="#0f172a"
       />
 
       <directionalLight
-    position={[5,3,5]}
-    intensity={4}
-/>
+        position={[5, 3, 5]}
+        intensity={3.2}
+      />
+
+      <pointLight position={[-5, 0.5, 3.5]} intensity={2.4} color="#38dff8" />
+
       <pointLight
         position={[-4, -3, -2]}
-        intensity={2}
+        intensity={1.4}
+        color="#8ad8ff"
       />
 
       <StarField />
