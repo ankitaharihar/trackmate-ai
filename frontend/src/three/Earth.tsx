@@ -40,12 +40,12 @@ const cloudMap = useLoader(
       <mesh ref={earthRef}>
         <sphereGeometry args={[1.05, 128, 128]} />
 
-        <meshStandardMaterial
-          map={dayMap}
-          normalMap={normalMap}
-          metalness={0.05}
-          roughness={0.85}
-        />
+       <meshStandardMaterial
+  map={dayMap}
+  normalMap={normalMap}
+  metalness={0.03}
+  roughness={0.65}
+/>
       </mesh>
 
       {/* Clouds */}
@@ -55,7 +55,7 @@ const cloudMap = useLoader(
         <meshStandardMaterial
           map={cloudMap}
           transparent
-          opacity={0.35}
+          opacity={0.3}
           depthWrite={false}
         />
       </mesh>
@@ -67,7 +67,7 @@ const cloudMap = useLoader(
   <meshBasicMaterial
     color="#4fd1ff"
     transparent
-    opacity={0.18}
+    opacity={0.24}
     side={THREE.BackSide}
   />
 </mesh>

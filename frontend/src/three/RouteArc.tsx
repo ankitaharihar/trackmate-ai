@@ -17,9 +17,9 @@ export default function RouteArc() {
     <Line
       points={points}
       color="#22d3ee"
-      lineWidth={3}
+      lineWidth={6}
       transparent
-      opacity={0.9}
+      opacity={1}
     />
   );
 }
