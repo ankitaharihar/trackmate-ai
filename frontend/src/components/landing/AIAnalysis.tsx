@@ -16,13 +16,12 @@ const items = [
 
 export default function AIAnalysis() {
   return (
-    <section className="relative bg-[#020817] py-32">
+    <section id="analysis" className="relative bg-[#020817] py-32">
       <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
-      id="analysis"
       className="mx-auto max-w-3xl rounded-3xl border border-cyan-500/20 bg-slate-900/80 p-8 shadow-[0_0_60px_rgba(34,211,238,0.12)] backdrop-blur-xl"
       >
         <div className="mb-8 flex items-center gap-3">

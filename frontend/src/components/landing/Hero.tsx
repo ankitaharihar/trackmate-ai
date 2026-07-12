@@ -2,11 +2,9 @@ import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import Scene from "../../three/Scene";
 import TrackingInput from "./TrackingInput";
-import TrackingDemo from "./TrackingDemo";
 
 export default function Hero() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [showDemo, setShowDemo] = useState(false);
   const courierList = useMemo(
     () => [
       "Amazon",
@@ -155,10 +153,15 @@ export default function Hero() {
               transition={{ duration: 0.9, ease: "easeOut" }}
               className="mt-12 w-full max-w-2xl"
             >
-              <TrackingInput onTrack={() => setShowDemo(true)} />
+              <TrackingInput
+                onTrack={() => {
+                  document.getElementById("analysis")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+              />
             </motion.div>
-
-            <TrackingDemo visible={showDemo} />
 
             <div className="mt-6 text-sm text-slate-400">
               <span className="block text-xs uppercase tracking-[0.35em] text-slate-500">
