@@ -1,9 +1,18 @@
+import type { TrackingData } from "../../types/tracking";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import Scene from "../../three/Scene";
 import TrackingInput from "./TrackingInput";
 
-export default function Hero() {
+
+type HeroProps = {
+  onTrack?: (data: TrackingData) => void;
+};
+
+
+export default function Hero({
+  onTrack,
+}: HeroProps) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const courierList = useMemo(
     () => [
@@ -154,13 +163,15 @@ export default function Hero() {
               className="mt-12 w-full max-w-2xl"
             >
               <TrackingInput
-                onTrack={() => {
-                  document.getElementById("analysis")?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }}
-              />
+  onTrack={(data) => {
+    onTrack?.(data);
+
+    document.getElementById("analysis")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }}
+/>
             </motion.div>
 
             <div className="mt-6 text-sm text-slate-400">

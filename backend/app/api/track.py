@@ -22,10 +22,43 @@ class TrackResponse(BaseModel):
     confidence: float
 
 
+def detect_courier(url: str) -> str:
+    url = url.lower()
+
+    if "amazon" in url:
+        return "Amazon Logistics"
+
+    elif "flipkart" in url:
+        return "Flipkart"
+
+    elif "dhl" in url:
+        return "DHL"
+
+    elif "bluedart" in url:
+        return "Blue Dart"
+
+    elif "dtdc" in url:
+        return "DTDC"
+
+    elif "delhivery" in url:
+        return "Delhivery"
+
+    elif "fedex" in url:
+        return "FedEx"
+
+    elif "indiapost" in url:
+        return "India Post"
+
+    return "Unknown Courier"
+
+
 @router.post("/track", response_model=TrackResponse)
 async def track_parcel(request: TrackRequest):
+
+    courier = detect_courier(request.trackingUrl)
+
     return TrackResponse(
-        courier="Amazon Logistics",
+        courier=courier,
         trackingId="TM982731",
         origin="Mumbai",
         destination="Pune",

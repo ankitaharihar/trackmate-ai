@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { type ReactNode } from "react";
 import RouteMap from "./RouteMap";
 import {
-  BrainCircuit,
   Clock3,
   Package,
   ShieldCheck,
@@ -10,7 +9,23 @@ import {
 } from "lucide-react";
 
 
-export default function DashboardPreview() {
+type TrackingData = {
+  courier: string;
+  trackingId: string;
+  origin: string;
+  destination: string;
+  status: string;
+  eta: string;
+  confidence: number;
+};
+
+type DashboardPreviewProps = {
+  trackingData: TrackingData | null;
+};
+
+export default function DashboardPreview({
+  trackingData,
+}: DashboardPreviewProps) {
   return (
     <section className="relative overflow-hidden bg-[#020817] py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -43,16 +58,40 @@ export default function DashboardPreview() {
         >
           <div className="grid gap-6 lg:grid-cols-[1fr_1.35fr_1fr]">
             <div className="space-y-6">
-              <Card icon={<Package />} title="Shipment" value="TM-982731" />
-              <Card icon={<Clock3 />} title="ETA" value="Tomorrow 2:30 PM" />
-              <Card icon={<ShieldCheck />} title="Confidence" value="98.7%" />
+              <Card
+  icon={<Package />}
+  title="Shipment"
+  value={trackingData?.trackingId ?? "TM-982731"}
+/>
+             <Card
+  icon={<Clock3 />}
+  title="ETA"
+  value={trackingData?.eta ?? "Tomorrow 2:30 PM"}
+/>
+              <Card
+  icon={<ShieldCheck />}
+  title="Confidence"
+  value={
+    trackingData
+      ? `${trackingData.confidence}%`
+      : "98.7%"
+  }
+/>
             </div>
 
             <RouteMap />
 
             <div className="space-y-6">
-              <Card icon={<TrendingUp />} title="AI Prediction" value="On Time" />
-              <Card icon={<BrainCircuit />} title="Delay Risk" value="Very Low" />
+              <Card
+  icon={<TrendingUp />}
+  title="Status"
+  value={trackingData?.status ?? "On Time"}
+/>
+              <Card
+  icon={<Package />}
+  title="Courier"
+  value={trackingData?.courier ?? "Amazon Logistics"}
+/>
               <Card icon={<Package />} title="Courier" value="Amazon Logistics" />
             </div>
           </div>

@@ -1,9 +1,12 @@
+import type { TrackingData } from "../../types/tracking";
 import { useState } from "react";
 import { ClipboardPaste, Link2, Sparkles } from "lucide-react";
 import { detectCourier } from "../../services/tracking";
 
+
+
 type TrackingInputProps = {
-  onTrack?: (data: unknown) => void;
+  onTrack?: (data: TrackingData) => void;
 };
 
 export default function TrackingInput({
