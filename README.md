@@ -1,4 +1,4 @@
-# TrackMate AI...
+# TrackMate AI
 
 AI-powered parcel tracking platform with a FastAPI backend and a React + TypeScript frontend.
 
