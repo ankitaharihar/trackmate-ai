@@ -24,8 +24,12 @@ export async function detectCourier(
   });
 
   if (!response.ok) {
-    throw new Error("Unable to detect courier");
-  }
+  const error = await response.json();
+
+  throw new Error(
+    error.detail || "Something went wrong."
+  );
+}
 
   return response.json();
 }

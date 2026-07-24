@@ -1,3 +1,9 @@
+from fastapi import APIRouter, HTTPException
+from app.services.url_validator import is_valid_tracking_url
+from app.services.courier_detector import (
+    detect_courier,
+    extract_tracking_id,
+)
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -21,45 +27,19 @@ class TrackResponse(BaseModel):
     eta: str
     confidence: float
 
-
-def detect_courier(url: str) -> str:
-    url = url.lower()
-
-    if "amazon" in url:
-        return "Amazon Logistics"
-
-    elif "flipkart" in url:
-        return "Flipkart"
-
-    elif "dhl" in url:
-        return "DHL"
-
-    elif "bluedart" in url:
-        return "Blue Dart"
-
-    elif "dtdc" in url:
-        return "DTDC"
-
-    elif "delhivery" in url:
-        return "Delhivery"
-
-    elif "fedex" in url:
-        return "FedEx"
-
-    elif "indiapost" in url:
-        return "India Post"
-
-    return "Unknown Courier"
-
-
 @router.post("/track", response_model=TrackResponse)
 async def track_parcel(request: TrackRequest):
-
+ if not is_valid_tracking_url(request.trackingUrl):
+    raise HTTPException(
+        status_code=400,
+        detail="Invalid or unsupported tracking URL.",
+    )  
     courier = detect_courier(request.trackingUrl)
+    tracking_id = extract_tracking_id(request.trackingUrl)
 
     return TrackResponse(
         courier=courier,
-        trackingId="TM982731",
+        trackingId=tracking_id,
         origin="Mumbai",
         destination="Pune",
         status="In Transit",
