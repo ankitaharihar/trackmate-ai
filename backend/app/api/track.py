@@ -29,20 +29,40 @@ class TrackResponse(BaseModel):
 
 @router.post("/track", response_model=TrackResponse)
 async def track_parcel(request: TrackRequest):
- if not is_valid_tracking_url(request.trackingUrl):
-    raise HTTPException(
-        status_code=400,
-        detail="Invalid or unsupported tracking URL.",
-    )  
+
+    if not is_valid_tracking_url(request.trackingUrl):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid or unsupported tracking URL.",
+        )
+
     courier = detect_courier(request.trackingUrl)
     tracking_id = extract_tracking_id(request.trackingUrl)
 
-    return TrackResponse(
-        courier=courier,
-        trackingId=tracking_id,
-        origin="Mumbai",
-        destination="Pune",
-        status="In Transit",
-        eta="Tomorrow 2:30 PM",
-        confidence=98.7,
-    )
+    if courier == "Amazon Logistics":
+        from app.services.amazon import track_amazon
+
+        data = track_amazon(request.trackingUrl)
+
+    elif courier == "Flipkart":
+        from app.services.flipkart import track_flipkart
+
+        data = track_flipkart(request.trackingUrl)
+
+    elif courier == "DHL":
+        from app.services.dhl import track_dhl
+
+        data = track_dhl(request.trackingUrl)
+
+    else:
+        data = {
+            "courier": courier,
+            "trackingId": tracking_id,
+            "origin": "Unknown",
+            "destination": "Unknown",
+            "status": "Tracking Not Available",
+            "eta": "-",
+            "confidence": 0,
+        }
+
+    return TrackResponse(**data)
